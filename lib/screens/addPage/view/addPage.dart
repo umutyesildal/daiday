@@ -40,7 +40,7 @@ class _AddPageState extends State<AddPage> {
                       width: MediaQuery.of(context).size.width / 7,
                       height: MediaQuery.of(context).size.height / 12,
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: Colors.white, //SHOULD BE BLACK
                           borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: Text(
