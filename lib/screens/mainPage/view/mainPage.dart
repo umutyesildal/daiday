@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(),
                   ),
-                  state.isDaylogs == false
+                  state.isDaylogs == true
                       ? ListView.separated(
                           separatorBuilder: (context, index) {
                             return SizedBox(

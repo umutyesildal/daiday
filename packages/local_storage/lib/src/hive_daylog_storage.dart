@@ -4,6 +4,7 @@ import 'package:local_storage/src/daylog_storage.dart';
 import 'package:local_storage/src/entities/hive_type_ids.dart';
 import 'package:local_storage/src/entities/daylog_entity.dart';
 import 'entities/activities_entity.dart';
+import 'package:path_provider/path_provider.dart' as path_provider;
 
 class HiveDaylogStorage implements DaylogStorage {
   static Box? _hiveBox;
@@ -13,12 +14,9 @@ class HiveDaylogStorage implements DaylogStorage {
   @override
   Future<HiveDaylogStorage> init() async {
     await Hive.initFlutter();
-    if (!Hive.isAdapterRegistered(TypeId.daylogEntityId))
-      Hive.registerAdapter(DaylogHiveEntityAdapter());
-    if (!Hive.isAdapterRegistered(TypeId.activitiesEntityId))
-      Hive.registerAdapter(ActivitiesAdapter());
+    Hive.registerAdapter<Activities>(ActivitiesAdapter());
+    Hive.registerAdapter<DaylogHiveEntity>(DaylogHiveEntityAdapter());
     _hiveBox ??= await Hive.openBox<DaylogHiveEntity>(boxName);
-
     return this;
   }
 

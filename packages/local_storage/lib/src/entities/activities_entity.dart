@@ -1,7 +1,9 @@
 import 'package:hive/hive.dart';
+import 'hive_type_ids.dart';
+
 part 'activities_entity.g.dart';
 
-@HiveType(typeId: 2)
+@HiveType(typeId: TypeId.activitiesEntityId)
 class Activities {
   @HiveField(0)
   String activity;

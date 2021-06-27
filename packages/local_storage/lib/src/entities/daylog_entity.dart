@@ -32,7 +32,7 @@ class DaylogHiveEntity extends HiveObject {
 
   static DaylogHiveEntity? fromMap(Map<String, dynamic>? map) {
     if (map == null) return null;
-    if (map.length < 13) {
+    if (map.length < 4) {
       print('insufficient number of feilds in user map');
       return null;
     }
