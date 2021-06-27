@@ -1,7 +1,7 @@
 library local_storage;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/daylog_storage.dart';
+export 'src/hive_daylog_storage.dart';
+export 'src/entities/daylog_entity.dart';
+export 'src/entities/activities_entity.dart';
+export 'src/entities/hive_type_ids.dart';

@@ -3,7 +3,7 @@ import 'activities_entity.dart';
 import 'hive_type_ids.dart';
 part 'daylog_entity.g.dart';
 
-@HiveType(typeId: TypeId.userEntityId)
+@HiveType(typeId: TypeId.daylogEntityId)
 class DaylogHiveEntity extends HiveObject {
   DaylogHiveEntity({
     required this.mood,

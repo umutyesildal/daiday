@@ -6,6 +6,8 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:provider/provider.dart';
 
+import 'app.dart';
+
 List<Mood> moods = [
   Mood(mood: 'happy'),
   Mood(mood: 'cheerful'),
@@ -126,7 +128,7 @@ class _MyAppState extends State<MyApp> {
           primaryColor: Colors.black,
           accentColor: Colors.black,
         ),
-        home: MainNavigator(),
+        home: App(),
       ),
       providers: [
         ChangeNotifierProvider(
