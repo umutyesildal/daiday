@@ -9,3 +9,11 @@ class GetDaylogsEvent extends GeneralEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetSelectedMood extends GeneralEvent {
+  GetSelectedMood({required this.mood});
+  final String mood;
+
+  @override
+  List<Object> get props => [mood];
+}

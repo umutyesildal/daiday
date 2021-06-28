@@ -1,8 +1,9 @@
 import 'package:daiday/addState/state/moodState.dart';
-import 'package:daiday/screens/addPage/addPage.dart';
+import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
+import 'package:local_storage/local_storage.dart';
 
 import 'notesAndPhotosPage.dart';
 
@@ -16,8 +17,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MoodState>(
-      builder: (context, state, widget) => Scaffold(
+    return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
+      return Scaffold(
         appBar: AppBar(
           title: Text('Activities'),
           backgroundColor: Colors.black,
@@ -27,11 +28,10 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: Hive.box('activities').length,
+                itemCount: state.allActivities!.length,
                 itemBuilder: (context, index) {
                   bool isTapped = false;
-                  Activities activities =
-                      Hive.box('activities').values.elementAt(index);
+                  Activities activities = state.allActivities![index];
                   return GestureDetector(
                     onTap: () {
                       print(activityList.length);
@@ -65,7 +65,6 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             ),
             TextButton(
                 onPressed: () {
-                  state.addActivities(activityList);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -74,7 +73,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                 child: Text('Done'))
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

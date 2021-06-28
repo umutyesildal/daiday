@@ -1,10 +1,8 @@
-import 'package:daiday/screens/addPage/addPage.dart';
-import 'package:daiday/screens/addPage/models/dayLog.dart';
 import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:daiday/screens/mainPage/view/widgets/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
+import 'package:local_storage/local_storage.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -68,16 +66,14 @@ class _MainPageState extends State<MainPage> {
                           },
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: Hive.box('logs').length,
+                          itemCount: state.allDaylogs!.length,
                           itemBuilder: (context, index) {
-                            DayLog log =
-                                Hive.box('logs').values.elementAt(index);
                             return MoodBubble(
-                              mood: log.mood.mood,
-                              activities: log.activities,
+                              mood: state.allDaylogs![index].mood,
+                              activities: state.allDaylogs![index].activities,
                               color: Colors.red,
                               date: "21:58 - Today",
-                              dayNotes: log.notesAndPhotos.notes,
+                              dayNotes: state.allDaylogs![index].notes,
                             );
                           },
                         )

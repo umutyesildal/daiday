@@ -1,8 +1,6 @@
-import 'package:daiday/addState/state/moodState.dart';
-import 'package:daiday/screens/addPage/models/models.dart';
+import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:daiday/screens/addPage/view/widgets/activitiesPage.dart';
 
 class AddPage extends StatefulWidget {
@@ -13,8 +11,8 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
-    return Consumer<MoodState>(
-      builder: (context, state, widget) => Scaffold(
+    return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
+      return Scaffold(
         appBar: AppBar(
           title: Text('Moods'),
           backgroundColor: Colors.black,
@@ -24,12 +22,14 @@ class _AddPageState extends State<AddPage> {
           children: [
             Expanded(
               child: ListView.builder(
-                itemCount: Hive.box('moods').length,
+                itemCount: state.allMoods!.length,
                 itemBuilder: (context, index) {
-                  Mood mood = Hive.box('moods').values.elementAt(index);
+                  String selectedMood = state.allMoods![index];
                   return GestureDetector(
                     onTap: () {
-                      state.addMood(mood);
+                      BlocProvider.of<GeneralBloc>(context)
+                          .add(GetSelectedMood(mood: selectedMood));
+
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -44,8 +44,8 @@ class _AddPageState extends State<AddPage> {
                           borderRadius: BorderRadius.circular(12)),
                       child: Center(
                         child: Text(
-                          mood.mood,
-                          style: TextStyle(color: Colors.white),
+                          selectedMood,
+                          style: TextStyle(color: Colors.black),
                         ),
                       ),
                     ),
@@ -55,7 +55,7 @@ class _AddPageState extends State<AddPage> {
             )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

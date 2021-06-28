@@ -18,12 +18,6 @@ class AddAll extends StatelessWidget {
         body: Center(
           child: TextButton(
             onPressed: () {
-              DayLog newLog = DayLog(
-                  mood: state.moods,
-                  date: DateTime.now(),
-                  activities: state.activities,
-                  notesAndPhotos: state.notesAndPhotos);
-              Hive.box('logs').add(newLog);
               Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(builder: (context) => MainNavigator()),
