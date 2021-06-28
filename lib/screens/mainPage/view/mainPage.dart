@@ -29,42 +29,40 @@ class _MainPageState extends State<MainPage> {
           bottom: false,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: SingleChildScrollView(
-              physics: ScrollPhysics(),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Good morning 👋',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Good morning 👋',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
-                  Text(
-                    'Umut Yeşildal',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                ),
+                Text(
+                  'Umut Yeşildal',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(),
-                  ),
-                  _searchBar(),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(),
-                  ),
-                  state.isDaylogs == true
-                      ? ListView.separated(
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(),
+                ),
+                _searchBar(),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(),
+                ),
+                state.isDaylogs == true
+                    ? Expanded(
+                        child: ListView.separated(
                           separatorBuilder: (context, index) {
                             return SizedBox(
                               height: 15,
                             );
                           },
-                          physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: state.logsToDisplay!.length,
                           itemBuilder: (context, index) {
@@ -77,10 +75,10 @@ class _MainPageState extends State<MainPage> {
                               dayNotes: state.logsToDisplay![index].notes,
                             );
                           },
-                        )
-                      : CircularProgressIndicator(),
-                ],
-              ),
+                        ),
+                      )
+                    : CircularProgressIndicator(),
+              ],
             ),
           ),
         ),

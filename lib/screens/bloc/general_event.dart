@@ -10,13 +10,6 @@ class GetDaylogsEvent extends GeneralEvent {
   List<Object> get props => [];
 }
 
-class AddDaylogsEvent extends GeneralEvent {
-  AddDaylogsEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
 class AddDaylogEvent extends GeneralEvent {
   AddDaylogEvent();
 
@@ -24,24 +17,41 @@ class AddDaylogEvent extends GeneralEvent {
   List<Object> get props => [];
 }
 
-class GetSelectedMood extends GeneralEvent {
-  GetSelectedMood({required this.mood});
+class AddMoodEvent extends GeneralEvent {
+  AddMoodEvent({required this.mood});
   final String mood;
 
   @override
   List<Object> get props => [mood];
 }
 
-class GetSelectedNote extends GeneralEvent {
-  GetSelectedNote({required this.note});
+class AddActivitiesEvent extends GeneralEvent {
+  AddActivitiesEvent({required this.activity, required this.emoji});
+  final String activity;
+  final String emoji;
+
+  @override
+  List<Object> get props => [activity, emoji];
+}
+
+class GetSelectedMoodEvent extends GeneralEvent {
+  GetSelectedMoodEvent({required this.mood});
+  final String mood;
+
+  @override
+  List<Object> get props => [mood];
+}
+
+class GetSelectedNoteEvent extends GeneralEvent {
+  GetSelectedNoteEvent({required this.note});
   final String note;
 
   @override
   List<Object> get props => [note];
 }
 
-class GetSelectedActivities extends GeneralEvent {
-  GetSelectedActivities({required this.activities});
+class GetSelectedActivitiesEvent extends GeneralEvent {
+  GetSelectedActivitiesEvent({required this.activities});
   final List<Activities> activities;
 
   @override

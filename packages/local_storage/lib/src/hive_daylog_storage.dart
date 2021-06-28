@@ -93,7 +93,7 @@ class HiveDaylogStorage implements DaylogStorage {
 
   Future deleteName() async {
     try {
-      await _hiveBoxName!.deleteFromDisk();
+      await _hiveBoxName!.deleteAt(0);
     } catch (e) {
       throw e;
     }
@@ -101,7 +101,7 @@ class HiveDaylogStorage implements DaylogStorage {
 
   Future checkName() async {
     try {
-      bool checkName = await _hiveBoxName!.isEmpty;
+      String checkName = await _hiveBoxName!.getAt(0);
       return checkName;
     } catch (e) {
       throw e;

@@ -20,37 +20,48 @@ class _AddPageState extends State<AddPage> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text('How are you?'),
+            SizedBox(
+              height: 25,
+            ),
             Expanded(
-              child: ListView.builder(
-                itemCount: state.allMoods!.length,
-                itemBuilder: (context, index) {
-                  String selectedMood = state.allMoods![index];
-                  return GestureDetector(
-                    onTap: () {
-                      BlocProvider.of<GeneralBloc>(context)
-                          .add(GetSelectedMood(mood: selectedMood));
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: List.generate(
+                  state.allMoods!.length,
+                  (index) {
+                    String selectedMood = state.allMoods![index];
 
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ActivitiesPage()));
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width / 7,
-                      height: MediaQuery.of(context).size.height / 12,
-                      decoration: BoxDecoration(
-                          color: Colors.white, //SHOULD BE BLACK
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Center(
-                        child: Text(
-                          selectedMood,
-                          style: TextStyle(color: Colors.black),
+                    return GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<GeneralBloc>(context)
+                            .add(GetSelectedMoodEvent(mood: selectedMood));
+
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ActivitiesPage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        width: MediaQuery.of(context).size.width / 7,
+                        height: MediaQuery.of(context).size.height / 12,
+                        decoration: BoxDecoration(
+                            color: Colors.white, //SHOULD BE BLACK
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Center(
+                          child: Text(
+                            selectedMood,
+                            style: TextStyle(color: Colors.black),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             )
           ],

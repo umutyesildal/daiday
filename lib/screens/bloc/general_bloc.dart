@@ -17,7 +17,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield* _mapGetCompaniesState(
         event,
       );
-    } else if (event is GetSelectedMood) {
+    } else if (event is GetSelectedMoodEvent) {
       yield* _mapSelectMoodState(
         event,
       );
@@ -29,12 +29,20 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield* _mapSearchQueryChangedToState(
         event,
       );
-    } else if (event is GetSelectedActivities) {
+    } else if (event is GetSelectedActivitiesEvent) {
       yield* _mapSelectActivitiesState(
         event,
       );
-    } else if (event is GetSelectedNote) {
+    } else if (event is GetSelectedNoteEvent) {
       yield* _mapSelectNoteState(
+        event,
+      );
+    } else if (event is AddMoodEvent) {
+      yield* _mapAddMoodState(
+        event,
+      );
+    } else if (event is AddActivitiesEvent) {
+      yield* _mapAddActivitiesState(
         event,
       );
     }
@@ -66,7 +74,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   }
 
   Stream<GeneralState> _mapSelectMoodState(
-    GetSelectedMood event,
+    GetSelectedMoodEvent event,
   ) async* {
     try {
       String selectedMood = event.mood;
@@ -79,7 +87,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   }
 
   Stream<GeneralState> _mapSelectNoteState(
-    GetSelectedNote event,
+    GetSelectedNoteEvent event,
   ) async* {
     try {
       String selectedNote = event.note;
@@ -92,7 +100,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   }
 
   Stream<GeneralState> _mapSelectActivitiesState(
-    GetSelectedActivities event,
+    GetSelectedActivitiesEvent event,
   ) async* {
     try {
       List<Activities> selectedActivities = event.activities;
@@ -113,10 +121,39 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
           date: DateTime.now().weekday.toString(),
           activities: state.selectedActivities!,
           notes: state.selectedNote!);
+      print('Add Bloc');
       await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
     } catch (e) {
       print(e);
       print('Add Log Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapAddMoodState(
+    AddMoodEvent event,
+  ) async* {
+    try {
+      print('Add Mood');
+      await daylogRepository.putMood(mood: event.mood);
+    } catch (e) {
+      print(e);
+      print('Add Mood Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapAddActivitiesState(
+    AddActivitiesEvent event,
+  ) async* {
+    try {
+      print('Add Activity');
+      Activities activity =
+          Activities(activity: event.activity, emoji: event.emoji);
+      await daylogRepository.putActivities(activities: activity);
+    } catch (e) {
+      print(e);
+      print('Add Activity Error');
       return;
     }
   }
