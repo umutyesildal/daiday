@@ -1,9 +1,7 @@
-import 'package:daiday/addState/state/moodState.dart';
-import 'package:daiday/screens/addPage/addPage.dart';
+import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_storage/local_storage.dart';
 import 'notesAndPhotosPage.dart';
 
 class ActivitiesPage extends StatefulWidget {
@@ -16,65 +14,92 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<MoodState>(
-      builder: (context, state, widget) => Scaffold(
+    return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
+      return Scaffold(
         appBar: AppBar(
-          title: Text('Activities'),
-          backgroundColor: Colors.black,
-        ),
-        body: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: Hive.box('activities').length,
-                itemBuilder: (context, index) {
-                  bool isTapped = false;
-                  Activities activities =
-                      Hive.box('activities').values.elementAt(index);
-                  return GestureDetector(
-                    onTap: () {
-                      print(activityList.length);
-                      if (isTapped == false) {
-                        activityList.add(activities);
-
-                        isTapped = true;
-                      } else {
-                        activityList.remove(activities);
-                        isTapped = false;
-                      }
-                    },
-                    child: Container(
-                      margin: EdgeInsets.all(20),
-                      width: MediaQuery.of(context).size.width / 7,
-                      height: MediaQuery.of(context).size.height / 20,
-                      decoration: BoxDecoration(
-                          color: Colors.black,
-                          borderRadius: BorderRadius.circular(12)),
-                      child: Center(
-                        child: Text(
-                            activities.emoji + ' ' + activities.activity,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-            TextButton(
-                onPressed: () {
-                  state.addActivities(activityList);
+          actions: [
+            GestureDetector(
+                onTap: () {
+                  BlocProvider.of<GeneralBloc>(context).add(
+                      GetSelectedActivitiesEvent(activities: activityList));
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => NotesAndPhotosPage()));
                 },
-                child: Text('Done'))
+                child: Center(child: Text('Save')))
+          ],
+          backgroundColor: Colors.black,
+        ),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 50,
+            ),
+            Text('What are you up to?'),
+            SizedBox(
+              height: 25,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: activityList.length,
+                itemBuilder: (context, index) {
+                  return Text(activityList[index].activity);
+                },
+              ),
+            ),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: List.generate(
+                  state.allActivities!.length,
+                  (index) {
+                    Activities activities = state.allActivities![index];
+                    return GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          print(activityList.length);
+                          if (activityList
+                              .contains(state.allActivities![index])) {
+                            activityList.remove(activities);
+                          } else {
+                            activityList.add(activities);
+                          }
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.all(20),
+                        width: MediaQuery.of(context).size.width / 7,
+                        height: MediaQuery.of(context).size.height / 20,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white),
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(activities.emoji,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white)),
+                              Text(activities.activity,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            )
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }

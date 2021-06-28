@@ -1,19 +1,34 @@
-import 'package:daiday/screens/addPage/addPage.dart';
-import 'package:daiday/screens/addPage/models/dayLog.dart';
+import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:daiday/screens/mainPage/view/widgets/searchBar.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:local_storage/local_storage.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    super.initState();
+    getCompanies();
+  }
+
+  Future? getCompanies() {
+    BlocProvider.of<GeneralBloc>(context).add(GetDaylogsEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SingleChildScrollView(
-            physics: ScrollPhysics(),
+    final generalBloc = BlocProvider.of<GeneralBloc>(context);
+    return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
+      return Scaffold(
+        body: SafeArea(
+          bottom: false,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,35 +50,57 @@ class MainPage extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(),
                 ),
-                SearchBar(),
+                _searchBar(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: SizedBox(),
                 ),
-                ListView.separated(
-                  separatorBuilder: (context, index) {
-                    return SizedBox(
-                      height: 15,
-                    );
-                  },
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: Hive.box('logs').length,
-                  itemBuilder: (context, index) {
-                    DayLog log = Hive.box('logs').values.elementAt(index);
-                    return MoodBubble(
-                      mood: log.mood.mood,
-                      activities: log.activities,
-                      color: Colors.red,
-                      date: "21:58 - Today",
-                      dayNotes: log.notesAndPhotos.notes,
-                    );
-                  },
-                ),
+                state.isDaylogs == true
+                    ? Expanded(
+                        child: ListView.separated(
+                          separatorBuilder: (context, index) {
+                            return SizedBox(
+                              height: 15,
+                            );
+                          },
+                          shrinkWrap: true,
+                          itemCount: state.logsToDisplay!.length,
+                          itemBuilder: (context, index) {
+                            return MoodBubble(
+                              mood: state.logsToDisplay![index].mood,
+                              activities:
+                                  state.logsToDisplay![index].activities,
+                              color: Colors.red,
+                              date: "21:58 - Today",
+                              dayNotes: state.logsToDisplay![index].notes,
+                            );
+                          },
+                        ),
+                      )
+                    : CircularProgressIndicator(),
               ],
             ),
           ),
         ),
+      );
+    });
+  }
+
+  _searchBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: TextField(
+        decoration: InputDecoration(
+          icon: Icon(Icons.search),
+          hintText: 'Search',
+        ),
+        keyboardType: TextInputType.text,
+        autocorrect: false,
+        onChanged: (text) {
+          text = text.toLowerCase();
+          BlocProvider.of<GeneralBloc>(context)
+              .add(SearchQueryChangedEvent(query: text));
+        },
       ),
     );
   }

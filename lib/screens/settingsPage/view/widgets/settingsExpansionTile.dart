@@ -8,18 +8,13 @@ class ExpansionTileItem extends StatelessWidget {
   final String givenText;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print('Inside');
-      },
-      child: ListTile(
-        title: Padding(
-          padding: const EdgeInsets.only(left: 40),
-          child: Text(
-            givenText,
-            style: TextStyle(
-              fontSize: 12,
-            ),
+    return ListTile(
+      title: Padding(
+        padding: const EdgeInsets.only(left: 40),
+        child: Text(
+          givenText,
+          style: TextStyle(
+            fontSize: 12,
           ),
         ),
       ),

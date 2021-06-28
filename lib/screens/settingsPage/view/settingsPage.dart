@@ -40,11 +40,28 @@ class SettingsPage extends StatelessWidget {
                           fontSize: 16.0, fontWeight: FontWeight.bold),
                     ),
                     children: <Widget>[
-                      ExpansionTileItem(
-                        givenText: 'Moods',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ManageMoodsPage()));
+                        },
+                        child: ExpansionTileItem(
+                          givenText: 'Moods',
+                        ),
                       ),
-                      ExpansionTileItem(
-                        givenText: 'Activities',
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ManageActivitiesPage()));
+                        },
+                        child: ExpansionTileItem(
+                          givenText: 'Activities',
+                        ),
                       ),
                       ExpansionTileItem(
                         givenText: 'Change Name',
