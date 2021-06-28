@@ -21,6 +21,22 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield* _mapSelectMoodState(
         event,
       );
+    } else if (event is AddDaylogEvent) {
+      yield* _mapAddDayLogState(
+        event,
+      );
+    } else if (event is SearchQueryChangedEvent) {
+      yield* _mapSearchQueryChangedToState(
+        event,
+      );
+    } else if (event is GetSelectedActivities) {
+      yield* _mapSelectActivitiesState(
+        event,
+      );
+    } else if (event is GetSelectedNote) {
+      yield* _mapSelectNoteState(
+        event,
+      );
     }
   }
 
@@ -36,6 +52,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield state.copywith(
           isDaylogs: true,
           allDaylogs: allDaylogs,
+          logsToDisplay: allDaylogs,
           allActivities: allActivities,
           allMoods: allMoods);
       print(state.isDaylogs);
@@ -59,5 +76,59 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       print('Selected Mood Error');
       return;
     }
+  }
+
+  Stream<GeneralState> _mapSelectNoteState(
+    GetSelectedNote event,
+  ) async* {
+    try {
+      String selectedNote = event.note;
+      yield state.copywith(selectedNote: selectedNote);
+    } catch (e) {
+      print(e);
+      print('Selected Note Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapSelectActivitiesState(
+    GetSelectedActivities event,
+  ) async* {
+    try {
+      List<Activities> selectedActivities = event.activities;
+      yield state.copywith(selectedActivities: selectedActivities);
+    } catch (e) {
+      print(e);
+      print('Selected Activities Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapAddDayLogState(
+    AddDaylogEvent event,
+  ) async* {
+    try {
+      DaylogHiveEntity newEntity = DaylogHiveEntity(
+          mood: state.selectedMood!,
+          date: DateTime.now().weekday.toString(),
+          activities: state.selectedActivities!,
+          notes: state.selectedNote!);
+      await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
+    } catch (e) {
+      print(e);
+      print('Add Log Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapSearchQueryChangedToState(
+    SearchQueryChangedEvent event,
+  ) async* {
+    print('We are changing logsToDisplay');
+    List<DaylogHiveEntity> daylogsToDisplay = state.allDaylogs!.where((log) {
+      var logData = log.notes.toLowerCase();
+      return logData.contains(event.query);
+    }).toList();
+    yield state.copywith(logsToDisplay: daylogsToDisplay);
   }
 }

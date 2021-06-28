@@ -1,10 +1,7 @@
-import 'package:daiday/addState/state/moodState.dart';
 import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
 import 'package:local_storage/local_storage.dart';
-
 import 'notesAndPhotosPage.dart';
 
 class ActivitiesPage extends StatefulWidget {
@@ -65,6 +62,8 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             ),
             TextButton(
                 onPressed: () {
+                  BlocProvider.of<GeneralBloc>(context)
+                      .add(GetSelectedActivities(activities: activityList));
                   Navigator.push(
                       context,
                       MaterialPageRoute(

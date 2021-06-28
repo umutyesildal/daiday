@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(),
                   ),
-                  SearchBar(),
+                  _searchBar(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: SizedBox(),
@@ -66,14 +66,15 @@ class _MainPageState extends State<MainPage> {
                           },
                           physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          itemCount: state.allDaylogs!.length,
+                          itemCount: state.logsToDisplay!.length,
                           itemBuilder: (context, index) {
                             return MoodBubble(
-                              mood: state.allDaylogs![index].mood,
-                              activities: state.allDaylogs![index].activities,
+                              mood: state.logsToDisplay![index].mood,
+                              activities:
+                                  state.logsToDisplay![index].activities,
                               color: Colors.red,
                               date: "21:58 - Today",
-                              dayNotes: state.allDaylogs![index].notes,
+                              dayNotes: state.logsToDisplay![index].notes,
                             );
                           },
                         )
@@ -85,6 +86,25 @@ class _MainPageState extends State<MainPage> {
         ),
       );
     });
+  }
+
+  _searchBar() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: TextField(
+        decoration: InputDecoration(
+          icon: Icon(Icons.search),
+          hintText: 'Search',
+        ),
+        keyboardType: TextInputType.text,
+        autocorrect: false,
+        onChanged: (text) {
+          text = text.toLowerCase();
+          BlocProvider.of<GeneralBloc>(context)
+              .add(SearchQueryChangedEvent(query: text));
+        },
+      ),
+    );
   }
 }
 

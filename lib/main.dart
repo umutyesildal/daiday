@@ -1,4 +1,3 @@
-import 'package:daiday/addState/state/moodState.dart';
 import 'package:daiday/service_locator.dart';
 import 'package:flutter/material.dart';
 
@@ -21,19 +20,12 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.black,
-          accentColor: Colors.black,
-        ),
-        home: App(),
+    return MaterialApp(
+      theme: ThemeData(
+        primaryColor: Colors.black,
+        accentColor: Colors.black,
       ),
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => MoodState(),
-        ),
-      ],
+      home: App(),
     );
   }
 }

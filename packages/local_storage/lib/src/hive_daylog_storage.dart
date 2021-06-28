@@ -2,19 +2,18 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:local_storage/src/daylog_storage.dart';
 import 'package:local_storage/src/dummy_data.dart';
-import 'package:local_storage/src/entities/hive_type_ids.dart';
 import 'package:local_storage/src/entities/daylog_entity.dart';
 import 'entities/activities_entity.dart';
-import 'package:path_provider/path_provider.dart' as path_provider;
 
 class HiveDaylogStorage implements DaylogStorage {
   static Box? _hiveBoxMain;
   static Box? _hiveBoxMood;
   static Box? _hiveBoxActivities;
+  static Box? _hiveBoxName;
+  static String _nameBoxName = 'name';
   static String _mainBoxName = 'logs';
   static String _moodBoxName = 'moods';
   static String _activitiesBoxName = 'activities';
-  static String currentDaylogKey = 'CurrentDaylogKey';
 
   @override
   Future<HiveDaylogStorage> init() async {
@@ -24,6 +23,8 @@ class HiveDaylogStorage implements DaylogStorage {
     _hiveBoxMood ??= await Hive.openBox<String>(_moodBoxName);
     _hiveBoxActivities ??= await Hive.openBox<Activities>(_activitiesBoxName);
     _hiveBoxMain ??= await Hive.openBox<DaylogHiveEntity>(_mainBoxName);
+    _hiveBoxName ??= await Hive.openBox<String>(_nameBoxName);
+
     if (_hiveBoxMain!.isEmpty) {
       populateLogs();
     }
@@ -66,6 +67,56 @@ class HiveDaylogStorage implements DaylogStorage {
     }
   }
 
+  Future putMood({required String mood}) async {
+    try {
+      await _hiveBoxMood!.add(mood);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future putActivities({required Activities activities}) async {
+    try {
+      await _hiveBoxActivities!.add(activities);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future putName({required String name}) async {
+    try {
+      await _hiveBoxName!.add(name);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future deleteName() async {
+    try {
+      await _hiveBoxName!.deleteFromDisk();
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future checkName() async {
+    try {
+      bool checkName = await _hiveBoxName!.isEmpty;
+      return checkName;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<String> getName() async {
+    try {
+      String name = await _hiveBoxName!.getAt(0);
+      return name;
+    } catch (e) {
+      throw e;
+    }
+  }
+
   Future<List<DaylogHiveEntity>?> getDaylogs() async {
     try {
       List<DaylogHiveEntity>? daylogHiveEntity =
@@ -97,7 +148,25 @@ class HiveDaylogStorage implements DaylogStorage {
   @override
   Future deleteDaylog() async {
     try {
-      await _hiveBoxMain!.delete(currentDaylogKey);
+      // await _hiveBoxMain!.delete(0);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @override
+  Future<String?> deleteMood({required String mood}) async {
+    try {
+      await _hiveBoxMood!.delete(mood);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @override
+  Future<String?> deleteActivities({required Activities activity}) async {
+    try {
+      await _hiveBoxMood!.delete(activity);
     } catch (e) {
       throw e;
     }
