@@ -3,6 +3,8 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:local_storage/local_storage.dart';
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
+
 part 'general_event.dart';
 part 'general_state.dart';
 
@@ -118,9 +120,14 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     try {
       DaylogHiveEntity newEntity = DaylogHiveEntity(
           mood: state.selectedMood!,
-          date: DateTime.now().weekday.toString(),
+          date: DateFormat.yMd('es').format(DateTime.now()),
           activities: state.selectedActivities!,
           notes: state.selectedNote!);
+      print(newEntity.date);
+      print(newEntity.mood);
+      print(newEntity.notes);
+      print(newEntity.activities[0]);
+
       print('Add Bloc');
       await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
     } catch (e) {

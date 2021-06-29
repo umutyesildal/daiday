@@ -70,8 +70,10 @@ class _MainPageState extends State<MainPage> {
                               mood: state.logsToDisplay![index].mood,
                               activities:
                                   state.logsToDisplay![index].activities,
-                              color: Colors.red,
-                              date: "21:58 - Today",
+                              color:
+                                  _getColor(state.logsToDisplay![index].mood),
+                              date: state.logsToDisplay![index].date
+                                  .substring(0, 5),
                               dayNotes: state.logsToDisplay![index].notes,
                             );
                           },
@@ -84,6 +86,18 @@ class _MainPageState extends State<MainPage> {
         ),
       );
     });
+  }
+
+  Color _getColor(String mood) {
+    if (mood == "Happy") {
+      return Colors.blue;
+    } else if (mood == "Exhausted") {
+      return Colors.orange;
+    } else if (mood == "Sad") {
+      return Colors.red;
+    } else {
+      return Colors.purple;
+    }
   }
 
   _searchBar() {
@@ -100,6 +114,7 @@ class _MainPageState extends State<MainPage> {
           text = text.toLowerCase();
           BlocProvider.of<GeneralBloc>(context)
               .add(SearchQueryChangedEvent(query: text));
+          print('changed');
         },
       ),
     );
@@ -144,7 +159,7 @@ class MoodBubble extends StatelessWidget {
             text: TextSpan(
               children: [
                 TextSpan(
-                  text: "FEELING " + mood + " ",
+                  text: "Feeling " + mood + " ",
                   style: TextStyle(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),

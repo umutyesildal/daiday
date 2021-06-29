@@ -6,6 +6,10 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text('Settings'),
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
@@ -14,11 +18,6 @@ class SettingsPage extends StatelessWidget {
               SizedBox(
                 height: 100,
               ),
-              UsernameText(),
-              SizedBox(
-                height: 100,
-              ),
-              SpaceBetweenWidgets(),
               Padding(
                 padding: const EdgeInsets.only(right: 40.0, left: 40.0),
                 child: Theme(
@@ -218,7 +217,7 @@ class UsernameText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Text(
-        'Username',
+        'Hello',
         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
       ),
     );

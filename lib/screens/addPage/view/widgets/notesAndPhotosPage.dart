@@ -20,7 +20,7 @@ class _NotesAndPhotosPageState extends State<NotesAndPhotosPage> {
     return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
       return Scaffold(
         appBar: AppBar(
-          title: Text('Notes And Photos'),
+          title: Text('Notes'),
           backgroundColor: Colors.black,
         ),
         body: Column(
@@ -28,16 +28,42 @@ class _NotesAndPhotosPageState extends State<NotesAndPhotosPage> {
             SizedBox(
               height: 100,
             ),
+            Center(
+              child: Text(
+                'Write your note',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: TextFormField(
                 controller: myController,
+                decoration: InputDecoration(
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(10.0),
+                    borderSide: new BorderSide(
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                ),
               ),
             ),
             SizedBox(
-              height: 100,
+              height: 50,
             ),
-            TextButton(
+            ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.black),
+                ),
                 onPressed: () {
                   BlocProvider.of<GeneralBloc>(context).add(
                       GetSelectedNoteEvent(note: myController.text.toString()));
@@ -57,7 +83,7 @@ class _NotesAndPhotosPageState extends State<NotesAndPhotosPage> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.green),
+                                        Colors.black),
                               ),
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -85,14 +111,17 @@ class _NotesAndPhotosPageState extends State<NotesAndPhotosPage> {
                               style: ButtonStyle(
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        Colors.black),
+                                        Colors.green.shade700),
                               ),
                             ),
                           ],
                         );
                       });
                 },
-                child: Text('Send'))
+                child: Text(
+                  'Send',
+                  style: TextStyle(color: Colors.white),
+                ))
           ],
         ),
       );

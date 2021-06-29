@@ -27,29 +27,48 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
                       MaterialPageRoute(
                           builder: (context) => NotesAndPhotosPage()));
                 },
-                child: Center(child: Text('Save')))
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Center(child: Text('Save')),
+                ))
           ],
           backgroundColor: Colors.black,
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              height: 50,
-            ),
-            Text('What are you up to?'),
-            SizedBox(
-              height: 25,
+            Expanded(
+              flex: 2,
+              child: Center(
+                child: Text(
+                  'What are you up to?',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
             ),
             Expanded(
+              flex: 2,
               child: ListView.builder(
                 itemCount: activityList.length,
                 itemBuilder: (context, index) {
-                  return Text(activityList[index].activity);
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 20),
+                    child: Text(
+                      activityList[index].activity,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
             Expanded(
+              flex: 4,
               child: GridView.count(
                 crossAxisCount: 3,
                 children: List.generate(

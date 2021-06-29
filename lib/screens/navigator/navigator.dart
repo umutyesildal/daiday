@@ -19,7 +19,7 @@ class _MainNavigatorState extends State<MainNavigator> {
     MainPage(),
     CalendarPage(),
     AddPage(),
-    StatisticsPage(),
+    BarChart(),
     SettingsPage()
   ];
 

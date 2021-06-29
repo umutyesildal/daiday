@@ -30,9 +30,10 @@ dependencies:
   path_provider: ^2.0.1
   hive_flutter: ^1.0.0
   responsive_navigation_bar: ^2.1.1
-  fl_chart: ^0.36.2
+  charts_flutter: ^0.10.0
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
+  table_calendar: ^3.0.1
   local_storage:
     path: packages/local_storage
 dev_dependencies:

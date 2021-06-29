@@ -23,7 +23,13 @@ class _AddPageState extends State<AddPage> {
             SizedBox(
               height: 50,
             ),
-            Text('How are you?'),
+            Text(
+              'How are you?',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(
               height: 25,
             ),
@@ -50,12 +56,12 @@ class _AddPageState extends State<AddPage> {
                         width: MediaQuery.of(context).size.width / 7,
                         height: MediaQuery.of(context).size.height / 12,
                         decoration: BoxDecoration(
-                            color: Colors.white, //SHOULD BE BLACK
+                            color: Colors.black, //SHOULD BE BLACK
                             borderRadius: BorderRadius.circular(12)),
                         child: Center(
                           child: Text(
                             selectedMood,
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),

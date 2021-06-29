@@ -35,6 +35,10 @@ class HiveDaylogStorage implements DaylogStorage {
       populateActivities();
     }
 
+    /*   _hiveBoxActivities!.deleteFromDisk();
+    _hiveBoxMain!.deleteFromDisk();
+    _hiveBoxMood!.deleteFromDisk();
+*/
     return this;
   }
 
