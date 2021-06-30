@@ -22,7 +22,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final generalBloc = BlocProvider.of<GeneralBloc>(context);
     return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
       return Scaffold(
         body: SafeArea(

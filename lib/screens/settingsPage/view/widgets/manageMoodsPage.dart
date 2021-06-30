@@ -87,17 +87,8 @@ class _MainPageState extends State<ManageMoodsPage> {
                                     onPressed: () {
                                       generalBloc.add(AddMoodEvent(
                                           mood: myController.text.toString()));
-                                      Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute<MainNavigator>(
-                                          builder: (context) {
-                                            return BlocProvider.value(
-                                              value: generalBloc,
-                                              child: MainNavigator(),
-                                            );
-                                          },
-                                        ),
-                                        (Route<dynamic> route) => false,
-                                      );
+
+                                      Navigator.of(context).pop();
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:

@@ -16,7 +16,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     GeneralEvent event,
   ) async* {
     if (event is GetDaylogsEvent) {
-      yield* _mapGetCompaniesState(
+      yield* _mapGetDaylogsState(
         event,
       );
     } else if (event is GetSelectedMoodEvent) {
@@ -50,7 +50,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
-  Stream<GeneralState> _mapGetCompaniesState(
+  Stream<GeneralState> _mapGetDaylogsState(
     GetDaylogsEvent event,
   ) async* {
     yield state.copywith(isDaylogs: false);
@@ -120,7 +120,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     try {
       DaylogHiveEntity newEntity = DaylogHiveEntity(
           mood: state.selectedMood!,
-          date: DateFormat.yMd('es').format(DateTime.now()),
+          date: DateFormat.yMd().format(DateTime.now()),
           activities: state.selectedActivities!,
           notes: state.selectedNote!);
       print(newEntity.date);
@@ -130,6 +130,8 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
 
       print('Add Bloc');
       await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
+      state.allDaylogs!.add(newEntity);
+      state.logsToDisplay!.add(newEntity);
     } catch (e) {
       print(e);
       print('Add Log Error');
@@ -143,6 +145,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     try {
       print('Add Mood');
       await daylogRepository.putMood(mood: event.mood);
+      state.allMoods!.add(event.mood);
     } catch (e) {
       print(e);
       print('Add Mood Error');
@@ -158,6 +161,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       Activities activity =
           Activities(activity: event.activity, emoji: event.emoji);
       await daylogRepository.putActivities(activities: activity);
+      state.allActivities!.add(activity);
     } catch (e) {
       print(e);
       print('Add Activity Error');
