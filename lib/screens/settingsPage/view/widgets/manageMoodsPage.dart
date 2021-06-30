@@ -87,7 +87,7 @@ class _MainPageState extends State<ManageMoodsPage> {
                                     onPressed: () {
                                       generalBloc.add(AddMoodEvent(
                                           mood: myController.text.toString()));
-
+                                      // Adding Mood to Bloc and then Database.
                                       Navigator.of(context).pop();
                                     },
                                     style: ButtonStyle(

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 part 'general_event.dart';
 part 'general_state.dart';
 
+// Root of the bloc, all the methods are here.
 class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   GeneralBloc({required this.daylogRepository}) : super(GeneralInitial());
   final DaylogStorage daylogRepository;
@@ -50,6 +51,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+// Getting datas from database.
   Stream<GeneralState> _mapGetDaylogsState(
     GetDaylogsEvent event,
   ) async* {
@@ -58,7 +60,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       List<DaylogHiveEntity>? allDaylogs = await daylogRepository.getDaylogs();
       List<Activities>? allActivities = await daylogRepository.getActivities();
       List<String>? allMoods = await daylogRepository.getMoods();
-
+// writing datas to state.
       yield state.copywith(
           isDaylogs: true,
           allDaylogs: allDaylogs,
@@ -75,6 +77,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+  // updating the selected mood when user taps to a mood.
   Stream<GeneralState> _mapSelectMoodState(
     GetSelectedMoodEvent event,
   ) async* {
@@ -88,6 +91,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+  // updating the selected note when user writes a note.
   Stream<GeneralState> _mapSelectNoteState(
     GetSelectedNoteEvent event,
   ) async* {
@@ -100,6 +104,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       return;
     }
   }
+  // updating the selected activity when user taps to a activity.
 
   Stream<GeneralState> _mapSelectActivitiesState(
     GetSelectedActivitiesEvent event,
@@ -114,6 +119,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+// Adding a Daylog to database.
   Stream<GeneralState> _mapAddDayLogState(
     AddDaylogEvent event,
   ) async* {
@@ -139,6 +145,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+// adding a mood to Database
   Stream<GeneralState> _mapAddMoodState(
     AddMoodEvent event,
   ) async* {
@@ -153,6 +160,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+// adding an activity to database
   Stream<GeneralState> _mapAddActivitiesState(
     AddActivitiesEvent event,
   ) async* {
@@ -169,6 +177,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     }
   }
 
+// updating logsToDisplay by query
   Stream<GeneralState> _mapSearchQueryChangedToState(
     SearchQueryChangedEvent event,
   ) async* {

@@ -1,5 +1,6 @@
 part of 'general_bloc.dart';
 
+/// State have variables that can be changed and reached from anywhere in the project.
 class GeneralState extends Equatable {
   const GeneralState({
     this.allDaylogs,

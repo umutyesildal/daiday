@@ -13,10 +13,11 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    getCompanies();
+    // getting all the data from database.
+    getData();
   }
 
-  Future? getCompanies() {
+  Future? getData() {
     BlocProvider.of<GeneralBloc>(context).add(GetDaylogsEvent());
   }
 
@@ -87,6 +88,7 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+// getting color according to mood.
   Color _getColor(String mood) {
     if (mood == "Happy") {
       return Colors.blue;

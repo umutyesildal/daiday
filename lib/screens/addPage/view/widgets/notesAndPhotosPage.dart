@@ -4,8 +4,6 @@ import 'package:daiday/screens/navigator/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'addAll.dart';
-
 class NotesAndPhotosPage extends StatefulWidget {
   @override
   _NotesAndPhotosPageState createState() => _NotesAndPhotosPageState();

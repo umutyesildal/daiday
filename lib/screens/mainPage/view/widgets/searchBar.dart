@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//Not used
 class SearchBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

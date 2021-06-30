@@ -7,6 +7,7 @@ import '../addPage/view/addPage.dart';
 import '../mainPage/view/mainPage.dart';
 import '../settingsPage/settingsPage.dart';
 
+// Bottom Navigation bar changes screens with selectedIndex.
 class MainNavigator extends StatefulWidget {
   @override
   _MainNavigatorState createState() => _MainNavigatorState();

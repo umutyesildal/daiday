@@ -1,5 +1,7 @@
 part of 'general_bloc.dart';
 
+///Events represents actions in bloc. To trigger a method first you need an event.
+
 @immutable
 abstract class GeneralEvent extends Equatable {}
 

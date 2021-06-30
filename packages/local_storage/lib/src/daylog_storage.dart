@@ -2,6 +2,7 @@ import 'package:local_storage/local_storage.dart';
 
 import 'entities/daylog_entity.dart';
 
+// abstract class so that bloc can reach and we can create new methods in another class.
 abstract class DaylogStorage {
   Future<DaylogStorage> init();
   Future putDaylog({required DaylogHiveEntity daylogHiveEntity});

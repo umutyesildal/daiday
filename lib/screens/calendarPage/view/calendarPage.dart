@@ -42,6 +42,7 @@ class _CalendarPageState extends State<CalendarPage> {
     super.dispose();
   }
 
+  // Getting the events for a day.
   List<Event> _getEventsForDay(DateTime day) {
     final _eventSource2 = Map.fromIterable(logs,
         key: (item) => DateFormat("dd/MM/yyyy").parse(item.date),
@@ -56,6 +57,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return events[day] ?? [];
   }
 
+  // getting the events for all days.
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
     // Implementation example
     final days = daysInRange(start, end);
@@ -70,7 +72,7 @@ class _CalendarPageState extends State<CalendarPage> {
       setState(() {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
-        _rangeStart = null; // Important to clean those
+        _rangeStart = null;
         _rangeEnd = null;
         _rangeSelectionMode = RangeSelectionMode.toggledOff;
       });
@@ -128,7 +130,6 @@ class _CalendarPageState extends State<CalendarPage> {
               eventLoader: _getEventsForDay,
               startingDayOfWeek: StartingDayOfWeek.monday,
               calendarStyle: CalendarStyle(
-                // Use `CalendarStyle` to customize the UI
                 outsideDaysVisible: false,
               ),
               onDaySelected: _onDaySelected,

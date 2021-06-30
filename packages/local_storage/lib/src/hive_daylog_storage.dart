@@ -15,6 +15,7 @@ class HiveDaylogStorage implements DaylogStorage {
   static String _moodBoxName = 'moods';
   static String _activitiesBoxName = 'activities';
 
+// init function to create,populate,update hive database boxes.
   @override
   Future<HiveDaylogStorage> init() async {
     await Hive.initFlutter();
@@ -63,6 +64,7 @@ class HiveDaylogStorage implements DaylogStorage {
     }
   }
 
+// putting a new daylog to database.
   Future putDaylog({required DaylogHiveEntity daylogHiveEntity}) async {
     try {
       await _hiveBoxMain!.add(daylogHiveEntity);
@@ -121,6 +123,7 @@ class HiveDaylogStorage implements DaylogStorage {
     }
   }
 
+// getting all the daylogs from database.
   Future<List<DaylogHiveEntity>?> getDaylogs() async {
     try {
       List<DaylogHiveEntity>? daylogHiveEntity =

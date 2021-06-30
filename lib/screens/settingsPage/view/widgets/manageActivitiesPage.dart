@@ -107,6 +107,7 @@ class _MainPageState extends State<ManageActivitiesPage> {
                                               .toString(),
                                           emoji: myControllerEmoji.text
                                               .toString()));
+                                      // Adding Activities to Bloc and then Database.
 
                                       Navigator.of(context).pop();
                                     },

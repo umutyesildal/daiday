@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_storage/local_storage.dart';
 
 class BarChart extends StatelessWidget {
+  /// Creating the chart.
   _getSeriesData() {
     List<charts.Series<DaylogStatistics, String>> series = [
       charts.Series(
@@ -21,6 +22,7 @@ class BarChart extends StatelessWidget {
 
   List<DaylogStatistics> moodList = [];
 
+  /// getting all the moods and the quantity of moods.
   _getMood(List<DaylogHiveEntity> logs) {
     String? currentMood;
     int numberOfMood = 0;
