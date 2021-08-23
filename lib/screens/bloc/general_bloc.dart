@@ -24,6 +24,22 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield* _mapSelectMoodState(
         event,
       );
+    } else if (event is GetNameEvent) {
+      yield* _mapGetNameState(
+        event,
+      );
+    } else if (event is ChangeNameEvent) {
+      yield* _mapChangeNameState(
+        event,
+      );
+    } else if (event is GetThemeEvent) {
+      yield* _mapGetThemeState(
+        event,
+      );
+    } else if (event is ChangeThemeEvent) {
+      yield* _mapChangeThemeState(
+        event,
+      );
     } else if (event is AddDaylogEvent) {
       yield* _mapAddDayLogState(
         event,
@@ -32,8 +48,12 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       yield* _mapSearchQueryChangedToState(
         event,
       );
-    } else if (event is GetSelectedActivitiesEvent) {
-      yield* _mapSelectActivitiesState(
+    } else if (event is AddSelectedActivitiesEvent) {
+      yield* _mapAddSelectedActivitiesState(
+        event,
+      );
+    } else if (event is DeleteSelectedActivitiesEvent) {
+      yield* _mapDeleteSelectedActivitiesState(
         event,
       );
     } else if (event is GetSelectedNoteEvent) {
@@ -58,15 +78,14 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     yield state.copywith(isDaylogs: false);
     try {
       List<DaylogHiveEntity>? allDaylogs = await daylogRepository.getDaylogs();
-      List<Activities>? allActivities = await daylogRepository.getActivities();
-      List<String>? allMoods = await daylogRepository.getMoods();
+      // List<Activities>? allActivities = await daylogRepository.getActivities();
+      // List<String>? allMoods = await daylogRepository.getMoods();
 // writing datas to state.
       yield state.copywith(
-          isDaylogs: true,
-          allDaylogs: allDaylogs,
-          logsToDisplay: allDaylogs,
-          allActivities: allActivities,
-          allMoods: allMoods);
+        isDaylogs: true,
+        allDaylogs: allDaylogs,
+        logsToDisplay: allDaylogs,
+      );
       print(state.isDaylogs);
       print(allDaylogs![0].mood.toString());
     } catch (e) {
@@ -106,12 +125,41 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   }
   // updating the selected activity when user taps to a activity.
 
-  Stream<GeneralState> _mapSelectActivitiesState(
-    GetSelectedActivitiesEvent event,
+  Stream<GeneralState> _mapAddSelectedActivitiesState(
+    AddSelectedActivitiesEvent event,
   ) async* {
+    List<Activities>? selectedActivities = [
+      Activities(activity: 'dassa', emoji: 'dsds'),
+    ];
+    selectedActivities.removeLast();
     try {
-      List<Activities> selectedActivities = event.activities;
-      yield state.copywith(selectedActivities: selectedActivities);
+      selectedActivities.add(event.activities);
+      yield state.copywith(
+          selectedActivities: selectedActivities, isActivitiesSelected: true);
+      print(event.activities.activity + ' ADDED');
+    } catch (e) {
+      print(e);
+      print('Selected Activities Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapDeleteSelectedActivitiesState(
+    DeleteSelectedActivitiesEvent event,
+  ) async* {
+    List<Activities>? selectedActivities = state.selectedActivities;
+    bool isLast;
+    if (state.selectedActivities!.length == 1) {
+      isLast = false;
+    } else {
+      isLast = true;
+    }
+    try {
+      selectedActivities!.remove(event.activities);
+
+      yield state.copywith(
+          selectedActivities: selectedActivities, isActivitiesSelected: isLast);
+      print(event.activities.activity + ' DELETED');
     } catch (e) {
       print(e);
       print('Selected Activities Error');
@@ -129,11 +177,6 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
           date: DateFormat.yMd().format(DateTime.now()),
           activities: state.selectedActivities!,
           notes: state.selectedNote!);
-      print(newEntity.date);
-      print(newEntity.mood);
-      print(newEntity.notes);
-      print(newEntity.activities[0]);
-
       print('Add Bloc');
       await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
       state.allDaylogs!.add(newEntity);
@@ -156,6 +199,62 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     } catch (e) {
       print(e);
       print('Add Mood Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapGetNameState(
+    GetNameEvent event,
+  ) async* {
+    try {
+      print('get name');
+      String? name = await daylogRepository.getName();
+      yield state.copywith(name: name);
+    } catch (e) {
+      print(e);
+      print('get name Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapChangeNameState(
+    ChangeNameEvent event,
+  ) async* {
+    try {
+      print('Add Name');
+      await daylogRepository.putName(name: event.name);
+      yield state.copywith(name: event.name);
+    } catch (e) {
+      print(e);
+      print('Add Name Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapGetThemeState(
+    GetThemeEvent event,
+  ) async* {
+    try {
+      print('get theme');
+      bool? themeData = await daylogRepository.getTheme();
+      yield state.copywith(theme: themeData);
+    } catch (e) {
+      print(e);
+      print('get theme Error');
+      return;
+    }
+  }
+
+  Stream<GeneralState> _mapChangeThemeState(
+    ChangeThemeEvent event,
+  ) async* {
+    try {
+      print('Change Theme');
+      await daylogRepository.putTheme(theme: event.theme);
+      yield state.copywith(theme: event.theme);
+    } catch (e) {
+      print(e);
+      print('Change Theme Error');
       return;
     }
   }

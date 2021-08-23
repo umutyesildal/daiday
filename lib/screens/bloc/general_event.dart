@@ -12,6 +12,34 @@ class GetDaylogsEvent extends GeneralEvent {
   List<Object> get props => [];
 }
 
+class GetNameEvent extends GeneralEvent {
+  GetNameEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class ChangeNameEvent extends GeneralEvent {
+  ChangeNameEvent({required this.name});
+  final String name;
+  @override
+  List<Object> get props => [name];
+}
+
+class GetThemeEvent extends GeneralEvent {
+  GetThemeEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+class ChangeThemeEvent extends GeneralEvent {
+  ChangeThemeEvent({required this.theme});
+  final bool theme;
+  @override
+  List<Object> get props => [theme];
+}
+
 class AddDaylogEvent extends GeneralEvent {
   AddDaylogEvent();
 
@@ -52,9 +80,17 @@ class GetSelectedNoteEvent extends GeneralEvent {
   List<Object> get props => [note];
 }
 
-class GetSelectedActivitiesEvent extends GeneralEvent {
-  GetSelectedActivitiesEvent({required this.activities});
-  final List<Activities> activities;
+class AddSelectedActivitiesEvent extends GeneralEvent {
+  AddSelectedActivitiesEvent({required this.activities});
+  final Activities activities;
+
+  @override
+  List<Object> get props => [activities];
+}
+
+class DeleteSelectedActivitiesEvent extends GeneralEvent {
+  DeleteSelectedActivitiesEvent({required this.activities});
+  final Activities activities;
 
   @override
   List<Object> get props => [activities];

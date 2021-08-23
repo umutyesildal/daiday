@@ -12,7 +12,7 @@ class BarChart extends StatelessWidget {
       charts.Series(
           id: "moodBarChart",
           data: moodList,
-          domainFn: (DaylogStatistics series, _) => series.mood, //Moods
+          domainFn: (DaylogStatistics series, _) => series.mood!, //Moods
           measureFn: (DaylogStatistics series, _) =>
               series.numberOfMood, //number of a mood
           colorFn: (DaylogStatistics series, _) => _getColor(series.mood!))
@@ -48,14 +48,32 @@ class BarChart extends StatelessWidget {
   }
 
   charts.Color _getColor(String mood) {
-    if (mood == 'Happy') {
-      return charts.ColorUtil.fromDartColor(Colors.blue);
-    } else if (mood == 'Sad') {
-      return charts.ColorUtil.fromDartColor(Colors.red);
-    } else if (mood == 'Angry') {
-      return charts.ColorUtil.fromDartColor(Colors.black);
-    } else {
-      return charts.ColorUtil.fromDartColor(Colors.deepPurple);
+    switch (mood) {
+      case "Cheerful":
+        return charts.ColorUtil.fromDartColor(Color(0xff1CD919));
+      case "Happy":
+        return charts.ColorUtil.fromDartColor(Color(0xff2C790E));
+
+      case "Good":
+        return charts.ColorUtil.fromDartColor(Color(0xff006df3));
+
+      case "Cool":
+        return charts.ColorUtil.fromDartColor(Color(0xff006e9b));
+
+      case "Meh":
+        return charts.ColorUtil.fromDartColor(Color(0xffD5E412));
+
+      case "Bad":
+        return charts.ColorUtil.fromDartColor(Color(0xffc49603));
+
+      case "Sad":
+        return charts.ColorUtil.fromDartColor(Color(0xffd76f03));
+
+      case "Stressed":
+        return charts.ColorUtil.fromDartColor(Color(0xffeb3d01));
+
+      default:
+        return charts.ColorUtil.fromDartColor(Color(0xffA50F0F));
     }
   }
 
@@ -65,14 +83,11 @@ class BarChart extends StatelessWidget {
       _getMood(state.allDaylogs!);
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
           title: Text('Charts'),
           centerTitle: true,
         ),
         body: Column(
           children: [
-            Expanded(flex: 2, child: SizedBox()),
-            Expanded(flex: 2, child: SizedBox()),
             Expanded(
               flex: 6,
               child: Container(

@@ -10,10 +10,12 @@ class HiveDaylogStorage implements DaylogStorage {
   static Box? _hiveBoxMood;
   static Box? _hiveBoxActivities;
   static Box? _hiveBoxName;
+  static Box? _hiveBoxTheme;
   static String _nameBoxName = 'name';
   static String _mainBoxName = 'logs';
   static String _moodBoxName = 'moods';
   static String _activitiesBoxName = 'activities';
+  static String _themeBoxName = 'theme';
 
 // init function to create,populate,update hive database boxes.
   @override
@@ -25,43 +27,25 @@ class HiveDaylogStorage implements DaylogStorage {
     _hiveBoxActivities ??= await Hive.openBox<Activities>(_activitiesBoxName);
     _hiveBoxMain ??= await Hive.openBox<DaylogHiveEntity>(_mainBoxName);
     _hiveBoxName ??= await Hive.openBox<String>(_nameBoxName);
+    _hiveBoxTheme ??= await Hive.openBox<bool>(_themeBoxName);
 
     if (_hiveBoxMain!.isEmpty) {
       populateLogs();
-    }
-    if (_hiveBoxMood!.isEmpty) {
-      populateMood();
-    }
-    if (_hiveBoxActivities!.isEmpty) {
-      populateActivities();
     }
 
     /*   _hiveBoxActivities!.deleteFromDisk();
     _hiveBoxMain!.deleteFromDisk();
     _hiveBoxMood!.deleteFromDisk();
+    _hiveBoxName!.deleteFromDisk();
+    _hiveBoxTheme!.deleteFromDisk();
 */
     return this;
   }
 
   Future populateLogs() async {
-    for (int i = 0; i < DummyData().logs.length; i++) {
-      _hiveBoxMain!.add(DummyData().logs[i]);
-      print(DummyData().logs[i]);
-    }
-  }
-
-  Future populateMood() async {
-    for (int i = 0; i < DummyData().moods.length; i++) {
-      _hiveBoxMood!.add(DummyData().moods[i]);
-      print(DummyData().moods[i]);
-    }
-  }
-
-  Future populateActivities() async {
-    for (int i = 0; i < DummyData().activities.length; i++) {
-      _hiveBoxActivities!.add(DummyData().activities[i]);
-      print(DummyData().activities[i]);
-    }
+    _hiveBoxMain!.add(DummyData().logs[0]);
+    _hiveBoxTheme!.put(0, false);
+    _hiveBoxName!.put(0, 'first');
   }
 
 // putting a new daylog to database.
@@ -91,24 +75,7 @@ class HiveDaylogStorage implements DaylogStorage {
 
   Future putName({required String name}) async {
     try {
-      await _hiveBoxName!.add(name);
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  Future deleteName() async {
-    try {
-      await _hiveBoxName!.deleteAt(0);
-    } catch (e) {
-      throw e;
-    }
-  }
-
-  Future checkName() async {
-    try {
-      String checkName = await _hiveBoxName!.getAt(0);
-      return checkName;
+      await _hiveBoxName!.put(0, name);
     } catch (e) {
       throw e;
     }
@@ -118,6 +85,23 @@ class HiveDaylogStorage implements DaylogStorage {
     try {
       String name = await _hiveBoxName!.getAt(0);
       return name;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future putTheme({required bool theme}) async {
+    try {
+      await _hiveBoxTheme!.put(0, theme);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<bool> getTheme() async {
+    try {
+      bool theme = await _hiveBoxTheme!.getAt(0);
+      return theme;
     } catch (e) {
       throw e;
     }

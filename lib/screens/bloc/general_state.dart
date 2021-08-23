@@ -11,18 +11,22 @@ class GeneralState extends Equatable {
     this.selectedActivities,
     this.selectedNote,
     this.isDaylogs = false,
+    this.isActivitiesSelected = false,
+    this.theme,
+    this.name,
   });
 
   final List<DaylogHiveEntity>? allDaylogs;
   final List<DaylogHiveEntity>? logsToDisplay;
   final List<Activities>? allActivities;
-
   final List<Activities>? selectedActivities;
   final List<String>? allMoods;
   final String? selectedMood;
   final String? selectedNote;
-
+  final String? name;
   final bool isDaylogs;
+  final bool isActivitiesSelected;
+  final bool? theme;
 
   GeneralState copywith({
     List<DaylogHiveEntity>? allDaylogs,
@@ -33,6 +37,9 @@ class GeneralState extends Equatable {
     String? selectedMood,
     String? selectedNote,
     bool? isDaylogs,
+    bool? isActivitiesSelected,
+    bool? theme,
+    String? name,
   }) {
     return GeneralState(
       allDaylogs: allDaylogs ?? this.allDaylogs,
@@ -43,6 +50,9 @@ class GeneralState extends Equatable {
       selectedMood: selectedMood ?? this.selectedMood,
       selectedNote: selectedNote ?? this.selectedNote,
       isDaylogs: isDaylogs ?? this.isDaylogs,
+      isActivitiesSelected: isActivitiesSelected ?? this.isActivitiesSelected,
+      theme: theme ?? this.theme,
+      name: name ?? this.name,
     );
   }
 
@@ -56,7 +66,10 @@ class GeneralState extends Equatable {
         selectedActivities,
         selectedMood,
         selectedNote,
-        isDaylogs
+        isDaylogs,
+        isActivitiesSelected,
+        theme,
+        name
       ];
 }
 

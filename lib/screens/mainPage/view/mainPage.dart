@@ -1,5 +1,4 @@
 import 'package:daiday/screens/bloc/general_bloc.dart';
-import 'package:daiday/screens/mainPage/view/widgets/searchBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_storage/local_storage.dart';
@@ -21,6 +20,36 @@ class _MainPageState extends State<MainPage> {
     BlocProvider.of<GeneralBloc>(context).add(GetDaylogsEvent());
   }
 
+  Color _getColor(String mood) {
+    switch (mood) {
+      case "Cheerful":
+        return Color(0xff1CD919);
+      case "Happy":
+        return Color(0xff2C790E);
+
+      case "Good":
+        return Color(0xff006df3);
+
+      case "Cool":
+        return Color(0xff006e9b);
+
+      case "Meh":
+        return Color(0xffD5E412);
+
+      case "Bad":
+        return Color(0xffc49603);
+
+      case "Sad":
+        return Color(0xffd76f03);
+
+      case "Stressed":
+        return Color(0xffeb3d01);
+
+      default:
+        return Color(0xffA50F0F);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
@@ -34,14 +63,14 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Good morning 👋',
+                  'Hello! 👋',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
-                  'Umut Yeşildal',
+                  state.name!,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
@@ -72,8 +101,11 @@ class _MainPageState extends State<MainPage> {
                                   state.logsToDisplay![index].activities,
                               color:
                                   _getColor(state.logsToDisplay![index].mood),
-                              date: state.logsToDisplay![index].date
-                                  .substring(0, 5),
+                              date: state.logsToDisplay![index].date.length == 9
+                                  ? state.logsToDisplay![index].date
+                                      .substring(0, 4)
+                                  : state.logsToDisplay![index].date
+                                      .substring(0, 5),
                               dayNotes: state.logsToDisplay![index].notes,
                             );
                           },
@@ -89,17 +121,6 @@ class _MainPageState extends State<MainPage> {
   }
 
 // getting color according to mood.
-  Color _getColor(String mood) {
-    if (mood == "Happy") {
-      return Colors.blue;
-    } else if (mood == "Exhausted") {
-      return Colors.orange;
-    } else if (mood == "Sad") {
-      return Colors.red;
-    } else {
-      return Colors.purple;
-    }
-  }
 
   _searchBar() {
     return Padding(
@@ -165,10 +186,10 @@ class MoodBubble extends StatelessWidget {
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
                 TextSpan(
-                  text: activities.length.toString(),
+                  text: activities[0].activity + ' ' + activities[0].emoji,
                   style: TextStyle(
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 12,
                       fontWeight: FontWeight.w200),
                 ),
               ],

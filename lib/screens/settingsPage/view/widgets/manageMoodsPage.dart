@@ -1,5 +1,4 @@
 import 'package:daiday/screens/bloc/general_bloc.dart';
-import 'package:daiday/screens/navigator/navigator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

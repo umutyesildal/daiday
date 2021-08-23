@@ -17,12 +17,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        primaryColor: Colors.black,
-        accentColor: Colors.black,
-      ),
-      home: App(),
-    );
+    return App();
   }
 }

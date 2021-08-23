@@ -1,6 +1,3 @@
-// Copyright 2019 Aleksander Woźniak
-// SPDX-License-Identifier: Apache-2.0
-
 import 'dart:collection';
 import 'package:daiday/screens/bloc/general_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +42,7 @@ class _CalendarPageState extends State<CalendarPage> {
   // Getting the events for a day.
   List<Event> _getEventsForDay(DateTime day) {
     final _eventSource2 = Map.fromIterable(logs,
-        key: (item) => DateFormat("dd/MM/yyyy").parse(item.date),
+        key: (item) => DateFormat("MM/dd/yyyy").parse(item.date),
         value: (item) => List.generate(1, (index) => Event(item.mood)));
 
     final events = LinkedHashMap<DateTime, List<Event>>(
@@ -113,7 +110,6 @@ class _CalendarPageState extends State<CalendarPage> {
       _populateLogs(state.allDaylogs!);
       return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.black,
           title: Text('Events'),
         ),
         body: Column(

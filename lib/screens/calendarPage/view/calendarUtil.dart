@@ -17,7 +17,7 @@ class Event {
 // This is used in calendarPage.
 LinkedHashMap<DateTime, List<Event>> _getEvents(List<DaylogHiveEntity> logs) {
   final _eventSource2 = Map.fromIterable(logs,
-      key: (item) => DateFormat("dd/MM/yyyy").parse(item.date),
+      key: (item) => DateFormat("MM/dd/yyyy").parse(item.date),
       value: (item) => List.generate(1, (index) => Event(item.mood)));
 
   final events = LinkedHashMap<DateTime, List<Event>>(

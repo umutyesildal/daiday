@@ -1,161 +1,251 @@
+import 'package:daiday/screens/bloc/general_bloc.dart';
+import 'package:daiday/screens/settingsPage/view/widgets/darkMode.dart';
 import 'package:flutter/material.dart';
-import 'view.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SettingsPage extends StatelessWidget {
   static String routeName = 'Settings Page';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('Settings'),
-      ),
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 100,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 40.0, left: 40.0),
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    trailing: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.white,
-                    ),
-                    leading: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      "Settings",
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ManageMoodsPage()));
-                        },
-                        child: ExpansionTileItem(
-                          givenText: 'Moods',
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ManageActivitiesPage()));
-                        },
-                        child: ExpansionTileItem(
-                          givenText: 'Activities',
-                        ),
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Change Name',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Log Out',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Delete Account',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              DividerWithPadding(),
-              Padding(
-                padding: const EdgeInsets.only(right: 40.0, left: 40.0),
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    trailing: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.white,
-                    ),
-                    leading: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      "Help",
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[
-                      ExpansionTileItem(
-                        givenText: 'Help & FAQ',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Contact Support',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Feedback',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              DividerWithPadding(),
-              Padding(
-                padding: const EdgeInsets.only(right: 40.0, left: 40.0),
-                child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
-                  child: ExpansionTile(
-                    tilePadding: EdgeInsets.zero,
-                    trailing: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.white,
-                    ),
-                    leading: Icon(
-                      Icons.keyboard_arrow_down,
-                      color: Colors.black,
-                    ),
-                    title: Text(
-                      "Legal",
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.bold),
-                    ),
-                    children: <Widget>[
-                      ExpansionTileItem(
-                        givenText: 'Privacy Policy',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Terms & Conditions',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Legal Notice',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Guidelines',
-                      ),
-                      ExpansionTileItem(
-                        givenText: 'Licenses',
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              DividerWithPadding()
-            ],
+    final generalBloc = BlocProvider.of<GeneralBloc>(context);
+
+    return BlocBuilder<GeneralBloc, GeneralState>(
+      builder: (context, state) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Settings'),
           ),
-        ),
-      ),
+          body: SingleChildScrollView(
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.emoji_emotions,
+                            size: 70,
+                            color: Theme.of(context).dividerColor,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'GO PREMIUM',
+                                style: TextStyle(
+                                    fontSize: 21,
+                                    color: Theme.of(context).dividerColor,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'Get all the new features!',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Theme.of(context).dividerColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Flexible(
+                            child: SizedBox(
+                              width: double.infinity,
+                            ),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            color: Color(0xff4D4D4D),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.person,
+                            size: 24,
+                            color: Theme.of(context).dividerColor,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Change Name',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DividerWithPadding(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<ChangeTheme>(
+                            builder: (context) {
+                              return BlocProvider.value(
+                                value: generalBloc,
+                                child: ChangeTheme(),
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.brush,
+                            size: 24,
+                            color: Theme.of(context).dividerColor,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Appearance',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Theme.of(context).dividerColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DividerWithPadding(),
+                  /*    Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.accessibility_new,
+                            size: 24,
+                            color: Colors.grey.shade300,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Add Activity (Premium Feature)',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DividerWithPadding(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: TextButton(
+                      onPressed: () {},
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.mood,
+                            size: 24,
+                            color: Colors.grey.shade300,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            'Add Mood (Premium Feature)',
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: Colors.grey.shade300,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  DividerWithPadding(), */
+                  /*   Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: TextButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.brush,
+                        size: 24,
+                        color: Color(0xff4D4D4D),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Görünüm',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xff4D4D4D),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              DividerWithPadding(),
+              Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: TextButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.language,
+                        size: 24,
+                        color: Color(0xff4D4D4D),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        'Dil',
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Color(0xff4D4D4D),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              DividerWithPadding(),
+              */
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
