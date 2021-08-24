@@ -59,14 +59,15 @@ class AddName extends StatelessWidget {
                 ),
               ),
               Expanded(
-                  flex: 1,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        BlocProvider.of<GeneralBloc>(context).add(
-                            ChangeNameEvent(
-                                name: myController.text.toString()));
-                      },
-                      child: Text('     Send     '))),
+                flex: 1,
+                child: ElevatedButton(
+                  onPressed: () {
+                    BlocProvider.of<GeneralBloc>(context).add(
+                        ChangeNameEvent(name: myController.text.toString()));
+                  },
+                  child: Text('     Send     '),
+                ),
+              ),
               Expanded(
                 flex: 1,
                 child: SizedBox(),

@@ -5,12 +5,31 @@ import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:local_storage/local_storage.dart';
 
-class BarChart extends StatelessWidget {
-  /// Creating the chart.
-  _getSeriesData() {
+class BarChart extends StatefulWidget {
+  @override
+  _BarChartState createState() => _BarChartState();
+}
+
+class _BarChartState extends State<BarChart> {
+  /// Creating the Linear chart.
+  _getLinearSeriesData() {
     List<charts.Series<DaylogStatistics, String>> series = [
       charts.Series(
-          id: "moodBarChart",
+          id: "moodLinearChart",
+          data: moodList,
+          domainFn: (DaylogStatistics series, _) => series.mood!, //Moods
+          measureFn: (DaylogStatistics series, _) =>
+              series.numberOfMood, //number of a mood
+          colorFn: (DaylogStatistics series, _) => _getColor(series.mood!))
+    ];
+    return series;
+  }
+
+  /// Creating the Pie chart.
+  _getPieSeriesData() {
+    List<charts.Series<DaylogStatistics, String>> series = [
+      charts.Series(
+          id: "moodPieChart",
           data: moodList,
           domainFn: (DaylogStatistics series, _) => series.mood!, //Moods
           measureFn: (DaylogStatistics series, _) =>
@@ -80,7 +99,7 @@ class BarChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GeneralBloc, GeneralState>(builder: (context, state) {
-      _getMood(state.allDaylogs!);
+      _getMood(state.logsToDisplay!);
       return Scaffold(
         appBar: AppBar(
           title: Text('Charts'),
@@ -106,7 +125,7 @@ class BarChart extends StatelessWidget {
                         ),
                         Expanded(
                           child: charts.BarChart(
-                            _getSeriesData(),
+                            _getLinearSeriesData(),
                             animate: true,
                             domainAxis: charts.OrdinalAxisSpec(
                                 renderSpec: charts.SmallTickRendererSpec(

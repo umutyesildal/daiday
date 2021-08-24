@@ -79,12 +79,11 @@ class _MainPageState extends State<ManageActivitiesPage> {
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
-                                title:
-                                    Text('Eklemek İstediğinize emin misiniz?'),
+                                title: Text('Are you sure you want to add?'),
                                 actions: <Widget>[
                                   TextButton(
                                     child: Text(
-                                      "Hayır",
+                                      "No",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     style: ButtonStyle(
@@ -98,7 +97,7 @@ class _MainPageState extends State<ManageActivitiesPage> {
                                   ),
                                   TextButton(
                                     child: Text(
-                                      "Evet",
+                                      "Yes",
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:daiday/screens/bloc/general_bloc.dart';
+import 'package:daiday/screens/settingsPage/view/widgets/changeName.dart';
 import 'package:daiday/screens/settingsPage/view/widgets/darkMode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -75,7 +76,18 @@ class SettingsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0),
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute<ChangeTheme>(
+                            builder: (context) {
+                              return BlocProvider.value(
+                                value: generalBloc,
+                                child: ChangeName(),
+                              );
+                            },
+                          ),
+                        );
+                      },
                       child: Row(
                         children: [
                           Icon(

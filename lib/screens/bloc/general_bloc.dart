@@ -171,6 +171,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
   Stream<GeneralState> _mapAddDayLogState(
     AddDaylogEvent event,
   ) async* {
+    List<DaylogHiveEntity>? daylogs = state.allDaylogs;
     try {
       DaylogHiveEntity newEntity = DaylogHiveEntity(
           mood: state.selectedMood!,
@@ -179,8 +180,8 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
           notes: state.selectedNote!);
       print('Add Bloc');
       await daylogRepository.putDaylog(daylogHiveEntity: newEntity);
-      state.allDaylogs!.add(newEntity);
-      state.logsToDisplay!.add(newEntity);
+      daylogs!.add(newEntity);
+      yield state.copywith(allDaylogs: daylogs, logsToDisplay: daylogs);
     } catch (e) {
       print(e);
       print('Add Log Error');
@@ -195,7 +196,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
     try {
       print('Add Mood');
       await daylogRepository.putMood(mood: event.mood);
-      state.allMoods!.add(event.mood);
+      //    state.allMoods!.add(event.mood);
     } catch (e) {
       print(e);
       print('Add Mood Error');
@@ -268,7 +269,7 @@ class GeneralBloc extends Bloc<GeneralEvent, GeneralState> {
       Activities activity =
           Activities(activity: event.activity, emoji: event.emoji);
       await daylogRepository.putActivities(activities: activity);
-      state.allActivities!.add(activity);
+      //     state.allActivities!.add(activity);
     } catch (e) {
       print(e);
       print('Add Activity Error');
